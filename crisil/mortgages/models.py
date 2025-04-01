@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Mortgage(models.Model):
     CREDIT_SCORE_CHOICES = [(i, i) for i in range(300, 851)]
 
@@ -12,6 +11,7 @@ class Mortgage(models.Model):
     loan_type = models.CharField(max_length=10, choices=[("fixed", "Fixed"), ("adjustable", "Adjustable")])
     property_type = models.CharField(max_length=20, choices=[("single_family", "Single Family"), ("condo", "Condo")])
     created_at = models.DateTimeField(auto_now_add=True)
+    credit_rating = models.CharField(max_length=3, blank=True, null=True)  # Field to store the calculated rating
 
     def calculate_risk_score(self):
         """Calculate risk score based on business logic"""
@@ -59,5 +59,10 @@ class Mortgage(models.Model):
         else:
             return "C"
 
+    def save(self, *args, **kwargs):
+        # Automatically set the credit_rating before saving the object
+        self.credit_rating = self.determine_credit_rating()
+        super().save(*args, **kwargs)
+
     def __str__(self):
-        return f"Mortgage {self.id} - Rating: {self.determine_credit_rating()}"
+        return f"Mortgage {self.pk} - Rating: {self.credit_rating}"

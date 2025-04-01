@@ -1,0 +1,99 @@
+<div class="container mt-4">
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a href="/mortgage-form"><button class="btn btn-success" type="button">Add Mortgages</button></a>
+  </div>
+  <div class="card mt-4">
+    <div class="card-header">
+<h5>Stored Mortgages</h5>
+</div>
+  <div class="card-body">
+<table class="table table-hover">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Credit Score</th>
+    <th scope="col">Loan Amount</th>
+    <th scope="col">Property Value</th>
+    <th scope="col">Annual Income</th>
+    <th scope="col">Debt Amount</th>
+    <th scope="col">Loan Type</th>
+    <th scope="col">Property Type</th>
+    <th scope="col">Rating</th>
+    <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let mortgage of mortgages;  let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ mortgage.credit_score }}</td>
+      <td>{{ mortgage.loan_amount }}</td>
+      <td>{{ mortgage.property_value }}</td>
+      <td>{{ mortgage.annual_income }}</td>
+      <td>{{ mortgage.debt_amount }}</td>
+      <td>{{ mortgage.loan_type }}</td>
+      <td>{{ mortgage.property_type }}</td>
+      <td>{{ mortgage.credit_rating }}</td>
+      <td><button type="button" (click)="editMortgage(mortgage)" class="btn btn-primary" style="margin-right: 10px;">Edit</button><button type="button" (click)="deleteMortgage(mortgage.id)" class="btn btn-danger">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div *ngIf="mortgages.length == 0" class="container" >
+  <h5>No mortgages avaliable .</h5>
+</div>
+</div>
+</div>
+ <!-- Update mortgage form -->
+ <div *ngIf="selectedMortgage">
+
+<div class="card mt-4">
+  <div class="card-header">
+    <h5>Edit Mortgage</h5>
+  </div>
+    <form (ngSubmit)="updateMortgage()">
+      <div class="card-body">
+      <div class="row">
+      <div class="col-4">
+      <label for="credit_score" class="form-label">Credit Score</label>
+      <input id="credit_score" class="form-control" [(ngModel)]="selectedMortgage.credit_score" name="credit_score" type="number" required />
+    </div>
+    <div class="col-4">
+      <label for="loan_amount" class="form-label">Loan Amount</label>
+      <input id="loan_amount" class="form-control" [(ngModel)]="selectedMortgage.loan_amount" name="loan_amount" type="number" required />
+    </div>
+    <div class="col-4">
+      <label for="property_value" class="form-label">Property Value</label>
+      <input id="property_value" class="form-control" [(ngModel)]="selectedMortgage.property_value" name="property_value" type="number" required />
+    </div>
+    <div class="col-4 mt-2">
+      <label for="debt_amount" class="form-label">Debt Amount</label>
+      <input id="debt_amount" class="form-control" [(ngModel)]="selectedMortgage.debt_amount" name="debt_amount" type="number" required />
+    </div>
+    <div class="col-4 mt-2">
+      <label class="form-label">Loan Type</label>
+      <select class="form-select" [(ngModel)]="selectedMortgage.loan_type" name="loan_type">
+        <option value="fixed">Fixed</option>
+        <option value="adjustable">Adjustable</option>
+      </select>
+    </div>
+    <div class="col-4 mt-2">
+      <label class="form-label">Property Type</label>
+      <select class="form-select" [(ngModel)]="selectedMortgage.property_type" name="property_type">
+        <option value="single_family">Single Family</option>
+          <option value="condo">Condo</option>
+      </select>
+    </div>
+    
+    </div>
+  </div>
+  <div class="card-footer d-grid gap-2 d-md-flex justify-content-md-end">
+    <button type="submit" class="btn btn-outline-primary">Update Mortgage</button>
+    <button type="button" (click)="cancelMortgage()" class="btn btn-outline-secondary">Cancel</button>
+  </div>
+    </form>
+
+  
+
+</div>
+  
+</div>
